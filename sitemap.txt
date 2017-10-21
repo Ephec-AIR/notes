@@ -1,0 +1,30 @@
+www.eco-air.org/
+	-> lien vers eco-air.org/forum
+	-> lien vers eco-air.org/forum/register
+	-> lien vers eco-air.org/home
+
+	components :
+	-> bouton forum
+	-> bloc description
+	-> champ login
+	-> champ mdp
+	-> bouton register
+
+www.eco-air.org/home
+	-> lien vers eco-air.org/forum
+	-> lien vers eco-air.org/param
+	
+	components :
+	-> bouton param
+	-> bouton forum
+	-> bloc conseil du jour
+	-> bloc graphe 
+
+www.eco-air.org/param
+	-> lien vers eco-air.org/forum
+	-> lien vers eco-air.org/home
+	
+	components :
+	-> bouton ma conso
+	-> bouton forum
+	-> bloc menu param  
