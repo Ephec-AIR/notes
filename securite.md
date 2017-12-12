@@ -1,17 +1,15 @@
-Sécurité
-========
+Sécurité du VPS
+===============
 
-VPS
----
-
-### iptables
+Sécurité passive : iptables
+---------------------------
 
 `iptables` est le parfeu fourni par défaut sur linux, il permet de spécifier les règles pour le sous-système `netfilter` qui est inclus au kernel Linux. Nous l'avons configuré avec la philosophie suivante:
 
 1) Interdire tout ce qui n'est pas autorisé
 2) N'autoriser que le strict nécessaire
 
-Cette protection est *passive*.
+C'est la partie *passive* de notre sécurité.
 
 `/etc/iptables/iptables.rules`
 
@@ -55,34 +53,94 @@ Cette protection est *passive*.
     -A INPUT -p tcp -m tcp --sport 53 -j ACCEPT
     -A OUTPUT -p udp -m udp --dport 53 -j ACCEPT
     -A OUTPUT -p tcp -m tcp --dport 53 -j ACCEPT
-    
+
     COMMIT
+
+Sécurité active : fail2ban
+--------------------------
+
+`fail2ban` est un utilitaire qui détecte des comportements étranges en lisant les fichiers logs de différents services à la volé. Nous avons activé les détections pour les services `ssh` (brute force, dos) et `nginx` (brute force, dos, bot search), vu que nginx est un middleware à notre application, elle est protégée de la même manière.
+
+Lorsqu'un comportement étrange est détecté, la politique est de bannir l'ip du pirate pour 1 jour ainsi que d'envoyer une notification sur le téléphone de Julien.
+
+C'est la partie *active* de notre sécurité`/etc/fail2ban/action.d/notify.conf`
+
+    [INCLUDES]
+
+    [Definition]
+    actionban = sudo -u julien notify -t "fail2ban (<name>): <ip> has been banned from $(hostname) on port <port> for <bantime>s"
+
+    [Init]
+
+`/etc/fail2ban/jail.local`
+
+    [DEFAULT]
+
+    bantime  = 86400
+    findtime  = 300
+    maxretry = 10
+
+    notifyaction = notify
+    action_n = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+            %(notifyaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s"]
+
+    action = %(action_n)s
+
+`/etc/fail2ban/jail.d/defaults-debian.conf`
+
+    [sshd]
+    enabled = true
+
+    [sshd-ddos]
+    enabled = true
+
+    [nginx-botsearch]
+    enabled = true
+
+    [nginx-limit-req]
+    enabled = true
+
+    [nginx-http-auth]
+    enabled = true
+
+    [nginx-401-403]
+    enabled = true
+
+`/etc/fail2ban/jail.d/nginx-401-403.conf`
+    [nginx-401-403]
+
+    port = http,https
+    filter = nginx-401-403
+    logpath = /var/log/nginx/access.log
+
+`/etc/fail2ban/filter.d/nginx-401-403.conf`
+
+    [Definition]
+    failregex = ^<HOST> -.*"(HEAD|GET|POST|PUT|DELETE).*HTTP.*" 40(1|3)
+    ignoreregex =
+
+Sécurité Linux : Best Pratices
+------------------------------
 
 ### PAM
 
 La création des utilisateurs a été fait avec la politique suivante:
 
 1) Chaque membre du groupe a reçu un compte à son nom.
-2) Chaque utilisateur a été créé avec un mot de passe aléatoire (mot de passe communiqué uniquement avec l'intéressé).
+2) Chaque utilisateur a été créé avec un mot de passe aléatoire communiqué uniquement à l'intéressé.
 3) Le compte a été configuré avec un `age` fixé à `0`. Ceci oblige l'utilisateur a changer son mot de passe lors de la prochaine connexion.
 4) Seuls les utilisateurs qui ont enregistré leur clé publique auront les accès admin.
-
-Script:
-
-    # useradd -m -s /bin/bash <user>
-    # passwd <user>
-    Password: <aléatoire sur 8 lettres>
-    Retype password: <le même mot de passe>
-    # chage -d 0 <user>
 
 ### sshd
 
 * Le démon ssh a été configuré pour ne pas autoriser la connexion sur le compte root
+* La connexion avec clé privée a été autorisée
 * Les membres du groupe `sudo` ne peuvent accéder à leur compte qu'au moyen de leur clé privée
 
-`/etc/ssh/sshd_config` (only diff)
+`/etc/ssh/sshd_config`
 
     PermitRootLogin no
     PubkeyAuthentication yes
     Match group sudo
-	    PasswordAuthentication no
+        PasswordAuthentication no
+
