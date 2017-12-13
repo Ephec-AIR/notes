@@ -7,7 +7,7 @@ Le Process de Developpement
 ---------------------------
 
 1) Lorsqu'une nouvelle fonctionnalité doit être ajouté, nous la codons sur la branche *dev*.
-2) Lorsque la fonctionnalité est fini et que ses tests unitaires sont écrits, nous faisons une pull request sur la branche *master*.
+2) Lorsque la fonctionnalité est finie et que ses tests unitaires sont écrits, nous faisons une pull request sur la branche *master*.
 3) Automatiquement travis détecte la pull request, lance tous les tests unitaires et fait un rapport.
 4) Si le rapport confirme que tout est ok nous validons la pull request.
 
