@@ -1,0 +1,3 @@
+PermitRootLogin no
+Match group sudo
+    PasswordAuthentication no

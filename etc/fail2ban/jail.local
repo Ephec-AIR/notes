@@ -1,0 +1,11 @@
+[DEFAULT]
+
+bantime  = 86400
+findtime  = 300
+maxretry = 10
+
+notifyaction = notify
+action_n = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+        %(notifyaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s"]
+
+action = %(action_n)s
