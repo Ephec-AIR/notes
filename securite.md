@@ -4,7 +4,7 @@ Sécurité du VPS
 Sécurité passive : iptables
 ---------------------------
 
-`iptables` est le parfeu fourni par défaut sur linux, il permet de spécifier les règles pour le sous-système `netfilter` qui est inclus au kernel Linux. Nous l'avons configuré avec la philosophie suivante:
+`iptables` est le par-feu fourni par défaut sur linux, il permet de spécifier les règles pour le sous-système `netfilter` qui est inclus au kernel Linux. Nous l'avons configuré avec la philosophie suivante:
 
 1) Interdire tout ce qui n'est pas autorisé
 2) N'autoriser que le strict nécessaire
@@ -14,7 +14,7 @@ Sécurité passive : iptables
 Sécurité active : fail2ban
 --------------------------
 
-`fail2ban` est un utilitaire qui détecte des comportements étranges en lisant les fichiers logs de différents services à la volé. Nous avons activé les détections pour les services `ssh` (brute force, dos) et `nginx` (brute force, dos, bot search), vu que nginx est un middleware à notre application, elle est protégée de la même manière.
+`fail2ban` est un utilitaire qui détecte des comportements étranges en lisant les fichiers logs de différents services à la volée. Nous avons activé les détections pour les services `ssh` (brute force, dos) et `nginx` (brute force, dos, bot search). Comme nginx est en amont de notre application, chaque erreur http renvoyé par notre application se retrouve dans les logs de nginx et donc est filtré par fail2abn. Notre application web est ainsi protégée de la même manière que nginx.
 
 Lorsqu'un comportement étrange est détecté, la politique est de bannir l'ip du pirate pour 1 jour et d'envoyer une notification sur le téléphone de Julien.
 
@@ -46,6 +46,14 @@ La création des utilisateurs a été fait avec la politique suivante:
 * Les membres du groupe `sudo` ne peuvent accéder à leur compte qu'au moyen de leur clé privée
 
 [`/etc/ssh/sshd_config`](etc/ssh/sshd_config)
+
+### Mise à jour
+
+pass
+
+### Permissions relatives au système de fichier
+
+Nos applications se trouvent respectivement dans `/var/www/api` pour notre [api web](https://github.com/Ephec-AIR/api), `/var/www/pwa` pour notre [application web](https://github.com/Ephec-AIR/pwa)
 
 Bibliographie
 -------------
