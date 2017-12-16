@@ -20,4 +20,6 @@ Le Process de Mise en Production
 
 ### Implémentation
 
-Une cron chez l'utilisateur `www-data` (propriétaire du dossier `/var/www/`) lance [le script](maj.sh) tous les quarts d'heures. En cas d'une erreur à une quelconque étape, un mail avec le rapport complet est envoyé à l'utilisateur `www-data` et une notification est envoyé sur le téléphone de Julien.
+Pour nos sites web, une cron chez l'utilisateur `www-data` (propriétaire du dossier `/var/www/`) lance [le script](maj.sh) tous les quarts d'heures. En cas d'une erreur à une quelconque étape, un mail avec le rapport complet est envoyé à l'utilisateur `www-data` et une notification est envoyé sur le téléphone de Julien.
+
+Les raspberry, le script de mise à jour automatique n'a pas été mise en place pour  mais il fonctionnerait selon le même diagramme.
