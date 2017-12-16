@@ -57,11 +57,11 @@ Les sécurités suivantes ont été mise en place pour garantir la bonne utilisa
 Mises à jour sécurisées
 -----------------------
 
-Les mises à jour sont effectuées automatiquement (voir [`Intégration continue##Le Process de Mise en Production`](integration_continue.md)). C'est souvent une faille logiciel importante qui permet à un attaquant de détourner le système de mise à jour pour forcer l'installation de binaires pirates. Dans un système sécurisé, il faut signer chaque binaire avec le certificat de l'entreprise avant de le rendre téléchargeable via processus de mise à jour, processus qui doit vérifier l'authenticité de chaque binaire téléchargé avant de l'installer.
+Les mises à jour sont effectuées automatiquement (voir [`Intégration continue##Le Process de Mise en Production`](integration_continue.md)). C'est souvent une faille logiciel importante qui permet à un attaquant de détourner le système de mise à jour pour forcer l'installation de binaires pirates. Dans un système sécurisé, il faut signer chaque binaire avec le certificat de l'entreprise avant de rendre ce binaire téléchargeable via le processus de mise à jour, processus qui doit vérifier l'authenticité de chaque binaire téléchargé avant de l'installer.
 
-Du fait que vous utilisons directement git dans le processus de mise à jour, nos "binaires" (la branche *master*) est implicitement sécurisé. Du fait que git travaille en https ou en ssh (tout deux des protocoles sécurisés), les fichiers téléchargés sont certains de provenir de leur plateforme.
+Du fait que vous utilisons directement git dans le processus de mise à jour, chaque est implicitement sécurisé. Du fait que git travaille en https ou en ssh (tout deux des protocoles sécurisés), les fichiers téléchargés sont certains de provenir de github et de nul le part ailleurs.
 
-Pour déployer des fichiers sur le dépôt github, il faut appartenir à l'organisation [Ephec-AIR](https://github.com/Ephec-AIR), uniquement les 6 membres de notre groupes en font partis. Une exception notable est celle de Christophe Van Waesberghe qui a également eu accès en écriture au dépôt [Ephec-AIR/ocr](https://github.com/Ephec-AIR/ocr) le temps de réaliser le projet du cours de Traitement du Signal.
+Reste donc la question de qui est autoriser à modifier les fichiers sur github. La réponse est simple, il faut appartenir à l'organisation [Ephec-AIR](https://github.com/Ephec-AIR), où sont uniquement enregistrés les 6 membres de notre groupes. Une exception notable a été celle de Christophe Van Waesberghe qui a eu accès en écriture au dépôt [Ephec-AIR/ocr](https://github.com/Ephec-AIR/ocr) le temps de réaliser le projet du cours de Traitement du Signal.
 
 Ces septs personnes sont toutes soumises au [rêglement des études de l'EPHEC](http://www.ephec.be/uploads/PLEIN%20EXERCICE/G%C3%A9n%C3%A9ral%202017-2018/Reglement_general_etudes_examens_2017-18.pdf).
 
