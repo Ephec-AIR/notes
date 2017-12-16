@@ -43,4 +43,4 @@ il est bien plus facile de le faire que de devoir rentrer dans une config qui n'
 
 #### Example d'un fichier Vue
 
-#### ...
+#### Librairie pour les graphes (Chartist)
