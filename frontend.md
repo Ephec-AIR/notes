@@ -2,8 +2,8 @@
 
 #### Framework (VueJS)
 
-En ce qui concerne la partie frontend de notre plateforme web, nous avons choisi d'utiliser le framework VueJS.
-L'utilisation d'un framework est tout d'abord choix, son utilisation amène une plus grande facilité et rapidité au développement
+Nous avons choisi d'utiliser le framework VueJS.
+L'utilisation d'un framework est tout d'abord un choix, son utilisation amène une plus grande facilité et rapidité au développement
 d'une part tout en ayant un coût au niveau des performances d'autre part.
 De plus VueJS de part son approche qui sera détaillée par après permet une meilleur maintenabilité du code que du code vanilla 
 (en pur javascript, sans l'utilisation d'un framework)
