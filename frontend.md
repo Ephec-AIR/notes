@@ -22,20 +22,42 @@ on va souvent utiliser un préprocesseur pour notre css (dans notre cas scss) af
 Au final ce que nous voulons c'est avoir ces fameux fichiers javascript et css que nous allons intégrer dans notre page html 
 au moyen de balises `<script>` et `<link>`.
 
-Pour cela, nous devons utiliser un outils de bundling, le plus populaire étant Webpack.
+Pour cela, nous devons utiliser un outils de bundling, le plus populaire étant Webpack.    
 Malheureusement, celui-ci a besoin d'un fichier de configuration assez complexe au premier abord du moins. Il existe toutefois 
-pour chaque framework une `cli (command line interface)` qui génère automatiquement le fichier de config nécessaire au bon fonctionnement de Webpack.
+pour chaque framework une `cli (command line interface)` qui génère automatiquement le fichier de config nécessaire au bon fonctionnement de Webpack.    
 Cependant, un membre de notre groupe disposait d'un fichier de config perso, l'avantage de créer sa propre configuration de Webpack 
 est qu'elle correspond parfaitement à ses besoins d'une part et d'autre part, si l'on a besoin de la moifier pour telle ou telle raison, 
 il est bien plus facile de le faire que de devoir rentrer dans une config qui n'est pas la notre.
 
-
+> Webpack
 ![Webpack](https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2017/01/1484692838webpack-dependency-tree.png)
 
-#### Mise en cache
+#### Performance
 
-// Cache nginx
-// Service Worker
+Comme on peut le constater, notre site à des performances élevées.   
+Il a en effet un score de 100/100 sur [pagespeed insight](https://developers.google.com/speed/pagespeed/insights/?hl=fr&url=air.ephec-ti.org), un outil de google permettant de mesurer la performance d'un site web sur desktop et mobile.    
+Nous avons mis en place différentes choses pour arriver à un tel résultat.
+
+##### Gzip et cache nginx
+Du côté du serveur web (nginx), nous avons compressé tout nos assets (css, js, html) au format gzip.    
+Ceci permet de réduire la taille de ces fichiers et donc de réduire le besoin en bande passante.    
+Par exemple, ceci nous permet de réduire d'un facteur de 3 la taille de nos fichiers javascript.     
+
+De plus, nous avons également mis en cache et ce pour 1 an tout nos fichiers statiques (js, css, images,...).  
+Comme on peut le remarquer sur la capture ci-dessous, le nom de fichier contient un numéro de révision _(a4d99281258b98247084)_.    
+Celui-ci change lors de chaque nouvelle build (mise à jour du site ndlr), ce qui veut dire que dès que ce fichier est mis à jour, son numéro de révision change et donc le navigateur web considère ceci comme un nouveau fichier et ne va pas chercher le fichier mis en cache mais plutôt celui présent sur le serveur.    
+Il supprime l'ancien fichier du cache et place le nouveau dans celui-ci.
+
+> Gzip et mise en cache
+![Gzip et Cache](https://raw.githubusercontent.com/Ephec-AIR/notes/master/screenshots/cache-nginx.png)
+
+##### Service Worker
+
+![Service Worker](https://blog.keycdn.com/blog/wp-content/uploads/2017/05/service-worker-diagram.png)
+
+##### Code-splitting
+
+![Code splitting](https://cdn-images-1.medium.com/max/1000/1*VgdNbnl08gcetpqE1t9P9w.png)
 
 ### Explication
 
