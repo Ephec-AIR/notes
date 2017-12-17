@@ -34,10 +34,16 @@ il est bien plus facile de le faire que de devoir rentrer dans une config qui n'
 
 #### Performance
 
-Lorsque l'on veut faire un site ou une application web utilisable autant sur pc que sur mobile, il est important de prendre du temps pour optimiser ses performances. Un mobile lorsqu'il est connecté au réseau n'a pas toujours la vitesse de connexion d'un pc connecté au wifi ou au cable ni les performances d'un pc.    
-On peut remarquer que notre site se charge très rapidement et ce même en 3G. Ceci est encore plus vrai après une première visite où le temps de chargement devient alors quasi instantané.
+Lorsque l'on veut faire un site ou une application web utilisable autant sur pc que sur mobile, il est important de prendre du temps pour optimiser ses performances. Un mobile lorsqu'il est connecté au réseau n'a pas toujours la vitesse de connexion d'un pc connecté au wifi ou au cable ni les performances d'un pc.  
+Dans une enquête menée par Google _(https://www.marketingdive.com/news/google-53-of-mobile-users-abandon-sites-that-take-over-3-seconds-to-load/426070/)_, il en est ressortit que **53%** des utilisateurs quitte un site s'il met plus de **3 secondes** à charger.
+Ne pas se concentrer sur les performances de son site signifie une perte importante d'utilisateurs et donc une perte d'argent.
 
-Il a en effet un score de 100/100 sur [pagespeed insight](https://developers.google.com/speed/pagespeed/insights/?hl=fr&url=air.ephec-ti.org), un outil de google permettant de mesurer la performance d'un site web sur desktop et mobile.    
+On peut remarquer que notre site se charge rapidement et ce même en 3G. Ceci est encore plus vrai après une première visite où le temps de chargement devient alors quasi instantané.    
+Lors de récent tests avec [webpagetest](https://www.webpagetest.org) avec un téléphone moyen et une connectivité 3G, nous avons un temps de chargement de ~4.2s lors de la première visite et de ~1-2s lors de visites répétées.    
+Nous voyons que bien que ces résultats sont correct, des améliorations reste toujours possibles. _(https://www.webpagetest.org/result/171217_W3_c4d3f643bf030d233ed13638ce7c0a63/)_
+
+Autrement, nous avons un score de 100/100 sur [pagespeed insight](https://developers.google.com/speed/pagespeed/insights/?hl=fr&url=air.ephec-ti.org), un outil de google permettant de mesurer la performance d'un site web sur desktop et mobile.   
+
 Nous avons mis en place différentes choses pour arriver à un tel résultat.
 
 ##### Gzip et cache nginx
@@ -79,10 +85,20 @@ Nous faisons du code-splitting pour découper notre bundle javascript en plusieu
 - Extraction du code "commun" (framework, librairies utilisées) afin de le séparer du code de notre application.    
 - Extraction du code des différentes routes (/home, /parameters, /admin). Il est en effet inutile de charger le code de la route _/admin_ lorsque l'on se trouve sur la page _home_ ce qui ne ferait qu'allonger le temps de chargement de la page.
 
+![code splitting](https://raw.githubusercontent.com/Ephec-AIR/notes/master/screenshots/code-splitting.png)
+
 Enfin, le code des différentes route est précharger via la balise `<link rel=prefetch>`.    
 Ce préchargement est réalisé durant les "temps libres" du navigateur sans toutefois bloquer le chargement de la page comme un chargement normale d'une ressource.
 
+![link rel prefetch](https://raw.githubusercontent.com/Ephec-AIR/notes/master/screenshots/link-rel-prefetch.png)
+
+![prefetch timeline](https://raw.githubusercontent.com/Ephec-AIR/notes/master/screenshots/prefetch-timeline.png)
+
 > Note: au dela d'être plus lent à télécharger, un plus gros bundle retarde le moment où la page est utilisable par l'utilisateur. En effet, après être chargé, le javascript doit être parsé et le temps de parsage est plus lent plus le bundle est volumineux et c'est d'autant plus vrai sur mobile où ce temps peut être multiplié par 10.
+
+#### Images
+
+Une autre manière d'obtenir de meilleur performances fût de ne pas charger des images ayant des tailles trop grandes et inadaptées et d'utiliser le format **svg** (plus léger) dès que possible.
 
 ### Explication
 
@@ -218,10 +234,13 @@ Bibliographie
 Service Workers: an Introduction, En ligne
 <https://developers.google.com/web/fundamentals/primers/service-workers/> consulté le 17/12/17
 
-* Addy OSMANI, Preload, Prefetch And Priorities in Chrome, En ligne  
+* Addy OSMANI, Preload, Prefetch And Priorities in Chrome, En ligne    
 <https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf> consulté le 17/12/17
 
-* Addy OSMANI, The cost of javascript, En ligne   <https://medium.com/dev-channel/the-cost-of-javascript-84009f51e99e> consulté le 17/12/17
+* Addy OSMANI, The cost of javascript, En ligne     <https://medium.com/dev-channel/the-cost-of-javascript-84009f51e99e> consulté le 17/12/17
 
 * Addy OSMANI, The PRPL Pattern, En ligne    
 <https://developers.google.com/web/fundamentals/performance/prpl-pattern/> consulté le 17/12/17
+
+* David KIRKPATRICK, Google: 53% of mobile users abandon sites that take over 3 seconds to load, En ligne    
+<https://www.marketingdive.com/news/google-53-of-mobile-users-abandon-sites-that-take-over-3-seconds-to-load/426070/>, consulté le 17/12/17
