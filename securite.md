@@ -54,6 +54,11 @@ Sécurité des utilisateurs
 
 Les sécurités suivantes ont été mise en place pour garantir la bonne utilisation de nos services par nos utilisateurs.
 
+HTTPS
+-----
+
+Tout le traffic passant par notre site web ou nos applications web est chiffré. Nous avons un nginx qui fait office de reverse-proxy et de terminateur ssl, tous nos sites et applications passent par nginx. Le certificat déployé provient de Let's Encrypt, un service gratuit qui fourni des certificats SSL et qui est soutenu par quelques grands noms du réseau et du web. Pour le confort de nos utilisateurs, une redirection du protocole http vers https a été mise en place: accéder à l'url <http://air.ephec-ti.org> redirigera sur à l'url <https://air.ephec-ti.org>, sur les navigateurs cette redirection sera automatique.
+
 Mises à jour sécurisées
 -----------------------
 
