@@ -35,7 +35,7 @@ Sécurité Linux : Best Pratices
 
 ### Création des utilisateurs
 
-La création des utilisateurs a été fait avec la politique suivante:
+La création des utilisateurs a été faite avec la politique suivante:
 
 1) Chaque membre du groupe a reçu un compte à son nom.
 2) Chaque utilisateur a été créé avec un mot de passe aléatoire communiqué uniquement à l'intéressé.
