@@ -59,6 +59,21 @@ HTTPS
 
 Tout le traffic passant par notre site web ou nos applications web est chiffré. Nous utilisons *nginx* comme reverse-proxy et de terminateur SSL, tous nos sites et applications passent par nginx. Le certificat déployé provient de *Let's Encrypt*, un service gratuit qui fourni des certificats SSL et qui est soutenu par quelques grands noms du réseau et du web. Pour le confort de nos utilisateurs, une redirection du protocole http vers https a été mise en place: accéder à l'url <http://air.ephec-ti.org> redirigera sur à l'url <https://air.ephec-ti.org>, sur les navigateurs cette redirection sera automatique.
 
+XSS
+---
+Les failles XSS (cross-site scripting) permettent à un utilisateur d'injecter du code malicieux notamment dans un formulaire afin de par exemple récupérer les cookies.
+
+VueJS (le framework frontend utilisé dans le projet) par défaut protège contre ces failles.   
+Il n'interprête pas le code html injecté sauf si on le demande explicitement via l'attribut `v-html`.    
+Nous n'avons pas utilisé cette attribut dans notre code donc nous sommes protégé contre de telles attaques.
+
+Variables d'environnement
+-------------------------
+Les mots de passes de notre API (mots de passes de la base de donnée,...) sont stockés dans les variables d'environnements afin de ne pas les affichés dans le code de notre application.  
+
+Toutefois, en développement nous utilisons un fichier `.env` où sont placés les variables d'environnement. 
+Celui-ci n'est évidemment pas commité sur github.
+
 Mises à jour sécurisées
 -----------------------
 
@@ -80,3 +95,5 @@ Bibliographie
 * Van Den Schrieck, V. (2017). *Administration Système et Réseaux II (Théorie)*. Syllabus, EPHEC.
 * Kadlecsik, J., McHardy, P., Neira Ayuso, P., Leblond, E. & Westphal, F. (2015). *iptables(8)*. Linux Man Pages.
 * fail2ban (2015), *Fail2ban*, En ligne <https://www.fail2ban.org/wiki/index.php/Main_Page> consulté d'octobre à novembre 2017.
+* THIBAUD, XSS in Vue.js, En ligne    
+<https://blog.sqreen.io/xss-in-vue-js/> consulté le 17/12/17

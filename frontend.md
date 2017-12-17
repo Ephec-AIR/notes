@@ -34,7 +34,9 @@ il est bien plus facile de le faire que de devoir rentrer dans une config qui n'
 
 #### Performance
 
-Comme on peut le constater, notre site à des performances élevées.   
+Lorsque l'on veut faire un site ou une application web utilisable autant sur pc que sur mobile, il est important de prendre du temps pour optimiser ses performances. Un mobile lorsqu'il est connecté au réseau n'a pas toujours la vitesse de connexion d'un pc connecté au wifi ou au cable ni les performances d'un pc.    
+On peut remarquer que notre site se charge très rapidement et ce même en 3G. Ceci est encore plus vrai après une première visite où le temps de chargement devient alors quasi instantané.
+
 Il a en effet un score de 100/100 sur [pagespeed insight](https://developers.google.com/speed/pagespeed/insights/?hl=fr&url=air.ephec-ti.org), un outil de google permettant de mesurer la performance d'un site web sur desktop et mobile.    
 Nous avons mis en place différentes choses pour arriver à un tel résultat.
 
@@ -55,15 +57,45 @@ Il supprime l'ancien fichier du cache et place le nouveau dans celui-ci.
 
 ![Service Worker](https://blog.keycdn.com/blog/wp-content/uploads/2017/05/service-worker-diagram.png)
 
-##### Code-splitting
+Un service worker est un proxy se plaçant entre le site web et le réseau. Pour expliquer de manière très simple, il intercepte toute les requètes faites au réseau et peut choisir de soit passer la requête au réseau, soit récupérer une copie depuis le cache.    
+Il faut noter que des stratégies bien plus complexe peuvent être implémentées (https://jakearchibald.com/2014/offline-cookbook/).
+
+Celui-ci nous permet de mettre en cache l'intégralité de notre site web (excepté les données de consommations bien que cela soit possible mais nous avons manqué de temps pour le faire).   
+Il en résulte un temps de chargement quasi instantané.
+
+![SW precache](https://raw.githubusercontent.com/Ephec-AIR/notes/master/screenshots/sw-precache.png)
+
+![SW route](https://raw.githubusercontent.com/Ephec-AIR/notes/master/screenshots/sw-route-cache.png)
+
+##### PRPL pattern et code-splitting 
 
 ![Code splitting](https://cdn-images-1.medium.com/max/1000/1*VgdNbnl08gcetpqE1t9P9w.png)
 
+Nous nous sommes inspirés du _PRPL pattern (Push, Render, Pre-cache, Lazy-load)_ pour réaliser notre application.    
+
+Il faut être conscient que si l'on charge un unique bundle javascript au chargement de notre application, celui-ci va ralentir le chargement de la page.    
+
+Nous faisons du code-splitting pour découper notre bundle javascript en plusieurs petits morceaux, bien plus rapide à charger :
+- Extraction du code "commun" (framework, librairies utilisées) afin de le séparer du code de notre application.    
+- Extraction du code des différentes routes (/home, /parameters, /admin). Il est en effet inutile de charger le code de la route _/admin_ lorsque l'on se trouve sur la page _home_ ce qui ne ferait qu'allonger le temps de chargement de la page.
+
+Enfin, le code des différentes route est précharger via la balise `<link rel=prefetch>`.    
+Ce préchargement est réalisé durant les "temps libres" du navigateur sans toutefois bloquer le chargement de la page comme un chargement normale d'une ressource.
+
+> Note: au dela d'être plus lent à télécharger, un plus gros bundle retarde le moment où la page est utilisable par l'utilisateur. En effet, après être chargé, le javascript doit être parsé et le temps de parsage est plus lent plus le bundle est volumineux et c'est d'autant plus vrai sur mobile où ce temps peut être multiplié par 10.
+
 ### Explication
 
-#### Architecture de la plateforme Web
+#### Architecture de l'application
+VueJS organise l'application en composant, ceux-ci sont placés dans des fichiers `.vue`.    
+Un composant peut être n'importe quel élément de l'interface (formulaire d'inscription, graph, barre de navigation,...).
+Chaque composant contient à la fois sa structure html, sa logique (javascript) et son style.     
+Ceci permet une meilleur maintenabilité du code.
 
-#### Exemple d'un fichier Vue
+Cette architecture est également adoptée par des concurrents de Vue tels que React et Angular.
+Elle a d'ailleur été standardisée par le **W3C** sous le nom de _Web Component_.
+
+##### Exemple d'un fichier Vue
 
 ```vue
 <template>
@@ -126,4 +158,70 @@ export default {
 </style>
 ```
 
-#### Librairie pour les graphes (Chartist)
+Ensuite, on injecte ce composant dans notre html.
+```html
+...
+<section>
+  <air-toast><!-- composant Vue -->
+</section>
+...
+```
+
+Pour ce qui est des différentes routes de notre application, elles sont gérées par notre framework via _vue-router_ qui est une libraire de l'écosystème **Vue**.   
+A chaque route (ex: /home), on associe une vue qui est elle-même un composant (ex: Home.vue).
+
+Enfin, chaque composant contient ses propres données, elles peuvent propagées de parent à enfant via ce qu'on appelle des _props_ (semblable à des attributs html)
+
+```
+<composant-parent>
+  <composant-enfant :data="data"></composant-enfant>
+</composnant-parent>
+
+```
+
+Le problème vient lorsqu'on veut propager ces données d'enfant à parent ou bien avec des composants voisins.
+
+> comment partager les données de composant-un avec composant-deux ?
+```
+<composant-un></composant-un>
+<composant-deux></composant-deux>
+```
+
+Pour régler, ce problème, nous avons utilisé **Vuex**.    
+Vuex permet de créer un store global qui contiendra l'entiereté des données de notre application.   
+Celle-ci pouvant désormais être injectées dans n'importe quel composant et partagées entre eux.
+
+#### Librairie pour les graphiques (Chartist)
+Lorsque nous avons commencé à intégrer les graphiques dans notre site web, nous avions d'abord pensé utiliser **anychart**.    
+Cette librairie posait 2 problèmes:    
+Le premier était qu'elle était payante et que la version gratuite au dela d'être limitée, plaçait un petit filigrane _"trial version"_ en dessous du graphique.    
+Le second était que cette librairie est bien trop lourde et ralentissait considérablement notre site web.
+
+Nous nous sommes finalement rabattu sur **chartist**.   
+Chartist est une librairie permettant de facilement créer des graphiques simples, elle est très légère _(10kb gzip)_, responsive et fait le rendu des graphiques en svg.
+
+Son utilisation est assez simple, il suffit de remplir un array contenant les différents labels de l'axe des abscisses et un autre array contenant un ou plusieurs array chaque array représentant un type de donnée (ex: ) 
+
+```js
+labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+series: [
+  [12, 9, 7, 8, 5],
+  [2, 1, 3.5, 7, 3],
+  [1, 3, 4, 5, 6]
+]
+```
+
+Bibliographie
+-------------
+
+* Matt GAUNT, 
+Service Workers: an Introduction, En ligne
+<https://developers.google.com/web/fundamentals/primers/service-workers/> consulté le 17/12/17
+
+* Addy OSMANI, Preload, Prefetch And Priorities in Chrome, En ligne  
+<https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf> consulté le 17/12/17
+
+* Addy OSMANI, The cost of javascript, En ligne   <https://medium.com/dev-channel/the-cost-of-javascript-84009f51e99e> consulté le 17/12/17
+
+* Addy OSMANI, The PRPL Pattern, En ligne    
+<https://developers.google.com/web/fundamentals/performance/prpl-pattern/> consulté le 17/12/17
