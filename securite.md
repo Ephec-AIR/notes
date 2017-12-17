@@ -1,7 +1,7 @@
 Sécurité du VPS
 ===============
 
-Les sécurités suivantes ont été mises en place pour assurer l'accès au VPS et à ses ressources uniquement aux personnes abilités.
+Les sécurités suivantes ont été mises en place pour assurer l'accès au VPS et à ses ressources uniquement aux personnes abilitées.
 
 Sécurité passive : iptables
 ---------------------------
@@ -11,14 +11,14 @@ Sécurité passive : iptables
 1) Interdire tout ce qui n'est pas autorisé
 2) N'autoriser que le strict nécessaire
 
-[`-> /etc/iptables/iptables.rules`](etc/iptables/iptables.rules)
+[`/etc/iptables/iptables.rules`](etc/iptables/iptables.rules)
 
 Sécurité active : fail2ban
 --------------------------
 
-`fail2ban` est un utilitaire qui détecte des comportements étranges en lisant les fichiers logs de différents services à la volée. Nous avons activé les détections pour les services `ssh` (brute force, dos) et `nginx` (brute force, dos, bot search). Comme nginx est en amont de notre application, chaque erreur http renvoyé par notre application se retrouve dans les logs de nginx et donc est filtré par fail2abn. Notre application web est ainsi protégée de la même manière que nginx.
+`fail2ban` est un utilitaire qui détecte des comportements étranges en lisant à la volée les fichiers logs de différents services. Nous avons activé les détections pour les services `ssh` (brute force, dos) et `nginx` (brute force, dos, bot search). Comme nginx est en amont de notre application, chaque erreur http renvoyée par notre application se retrouve dans les logs de nginx et donc est filtrée par fail2abn. Notre application web est ainsi protégée de la même manière que nginx.
 
-Lorsqu'un comportement étrange est détecté, la politique est de bannir l'ip du pirate pour 1 jour et d'envoyer une notification sur le téléphone de Julien.
+Lorsqu'un comportement étrange est détecté, la politique est de bannir l'adresse ip du pirate pour 1 jour et d'envoyer une notification sur le téléphone d'un admin (Julien dans le cas présent).
 
 [`/etc/fail2ban/filter.d/nginx-401-403.conf`](etc/fail2ban/filter.d/nginx-401-403.conf)
 
@@ -39,7 +39,7 @@ La création des utilisateurs a été fait avec la politique suivante:
 
 1) Chaque membre du groupe a reçu un compte à son nom.
 2) Chaque utilisateur a été créé avec un mot de passe aléatoire communiqué uniquement à l'intéressé.
-3) Le compte a été configuré avec un `age` fixé à `0`. Ceci oblige l'utilisateur a changer son mot de passe lors de la prochaine connexion.
+3) Le compte a été configuré avec un `age` fixé à `0`. Ceci oblige l'utilisateur à changer son mot de passe lors de la prochaine connexion.
 4) Seuls les utilisateurs qui ont enregistré leur clé publique auront les accès admin.
 
 ### sshd
@@ -57,18 +57,20 @@ Les sécurités suivantes ont été mise en place pour garantir la bonne utilisa
 HTTPS
 -----
 
-Tout le traffic passant par notre site web ou nos applications web est chiffré. Nous avons un nginx qui fait office de reverse-proxy et de terminateur ssl, tous nos sites et applications passent par nginx. Le certificat déployé provient de Let's Encrypt, un service gratuit qui fourni des certificats SSL et qui est soutenu par quelques grands noms du réseau et du web. Pour le confort de nos utilisateurs, une redirection du protocole http vers https a été mise en place: accéder à l'url <http://air.ephec-ti.org> redirigera sur à l'url <https://air.ephec-ti.org>, sur les navigateurs cette redirection sera automatique.
+Tout le traffic passant par notre site web ou nos applications web est chiffré. Nous utilisons *nginx* comme reverse-proxy et de terminateur SSL, tous nos sites et applications passent par nginx. Le certificat déployé provient de *Let's Encrypt*, un service gratuit qui fourni des certificats SSL et qui est soutenu par quelques grands noms du réseau et du web. Pour le confort de nos utilisateurs, une redirection du protocole http vers https a été mise en place: accéder à l'url <http://air.ephec-ti.org> redirigera sur à l'url <https://air.ephec-ti.org>, sur les navigateurs cette redirection sera automatique.
 
 Mises à jour sécurisées
 -----------------------
 
 Les mises à jour sont effectuées automatiquement (voir [`Intégration continue##Le Process de Mise en Production`](integration_continue.md)). C'est souvent une faille logiciel importante qui permet à un attaquant de détourner le système de mise à jour pour forcer l'installation de binaires pirates. Dans un système sécurisé, il faut signer chaque binaire avec le certificat de l'entreprise avant de rendre ce binaire téléchargeable via le processus de mise à jour, processus qui doit vérifier l'authenticité de chaque binaire téléchargé avant de l'installer.
 
-Du fait que vous utilisons directement git dans le processus de mise à jour, chaque est implicitement sécurisé. Du fait que git travaille en https ou en ssh (tout deux des protocoles sécurisés), les fichiers téléchargés sont certains de provenir de github et de nul le part ailleurs.
+Du fait que nous utilisons *git* (qui se base sur les protocoles sécurisés HTTPS ou SSH), chaque transaction est sur de provenir ou de parvenir à la destination voulue (dans notre cas github).
 
-Reste donc la question de qui est autoriser à modifier les fichiers sur github. La réponse est simple, il faut appartenir à l'organisation [Ephec-AIR](https://github.com/Ephec-AIR), où sont uniquement enregistrés les 6 membres de notre groupes. Une exception notable a été celle de Christophe Van Waesberghe qui a eu accès en écriture au dépôt [Ephec-AIR/ocr](https://github.com/Ephec-AIR/ocr) le temps de réaliser le projet du cours de Traitement du Signal.
+Seuls les membres de l'organisation [Ephec-AIR](https://github.com/Ephec-AIR) sont autoriser à faire des modifications, c'est à dire les six membres de notre groupe d'intégration. Une exception notable a été celle de Christophe Van Waesberghe qui a eu accès en écriture au dépôt [Ephec-AIR/ocr](https://github.com/Ephec-AIR/ocr) le temps de réaliser le projet du cours de Traitement du Signal.
 
 Ces septs personnes sont toutes soumises au [rêglement des études de l'EPHEC](http://www.ephec.be/uploads/PLEIN%20EXERCICE/G%C3%A9n%C3%A9ral%202017-2018/Reglement_general_etudes_examens_2017-18.pdf).
+
+En conclusion, vu que chaque fichier ne peut être modifier que part une liste bien définie de personne soumises à un règlement commun et que l'origine des mises à jour ne peut pas être détourner: les mises à jours sont sécurisées et fiable.
 
 Bibliographie
 -------------
