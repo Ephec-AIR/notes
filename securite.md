@@ -79,7 +79,7 @@ Mises à jour sécurisées
 
 Les mises à jour sont effectuées automatiquement (voir [`Intégration continue##Le Process de Mise en Production`](integration_continue.md)). C'est souvent une faille logiciel importante qui permet à un attaquant de détourner le système de mise à jour pour forcer l'installation de binaires pirates. Dans un système sécurisé, il faut signer chaque binaire avec le certificat de l'entreprise avant de rendre ce binaire téléchargeable via le processus de mise à jour, processus qui doit vérifier l'authenticité de chaque binaire téléchargé avant de l'installer.
 
-Du fait que nous utilisons *git* (qui se base sur les protocoles sécurisés HTTPS ou SSH), chaque transaction est sur de provenir ou de parvenir à la destination voulue (dans notre cas github).
+Du fait que nous utilisons *git* (qui se base sur les protocoles sécurisés HTTPS ou SSH), chaque transaction est certaine de provenir ou de parvenir à la destination voulue (dans notre cas github).
 
 Seuls les membres de l'organisation [Ephec-AIR](https://github.com/Ephec-AIR) sont autoriser à faire des modifications, c'est à dire les six membres de notre groupe d'intégration. Une exception notable a été celle de Christophe Van Waesberghe qui a eu accès en écriture au dépôt [Ephec-AIR/ocr](https://github.com/Ephec-AIR/ocr) le temps de réaliser le projet du cours de Traitement du Signal.
 
