@@ -65,7 +65,7 @@ Les failles XSS (cross-site scripting) permettent à un utilisateur d'injecter d
 
 VueJS (le framework frontend utilisé dans le projet) par défaut protège contre ces failles.   
 Il n'interprête pas le code html injecté sauf si on le demande explicitement via l'attribut `v-html`.    
-Nous n'avons pas utilisé cette attribut dans notre code donc nous sommes protégé contre de telles attaques.
+Nous n'avons pas utilisé cet attribut dans notre code donc nous sommes protégé contre de telles attaques.
 
 Variables d'environnement
 -------------------------
