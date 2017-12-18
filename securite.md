@@ -69,7 +69,7 @@ Nous n'avons pas utilisé cet attribut dans notre code donc nous sommes protég�
 
 Variables d'environnement
 -------------------------
-Les mots de passes de notre API (mots de passes de la base de donnée,...) sont stockés dans les variables d'environnements afin de ne pas les affichés dans le code de notre application.  
+Les mots de passes de notre API (mots de passes de la base de donnée,...) sont stockés dans les variables d'environnement afin de ne pas les affichés dans le code de notre application.  
 
 Toutefois, en développement nous utilisons un fichier `.env` où sont placés les variables d'environnement. 
 Celui-ci n'est évidemment pas commité sur github.
