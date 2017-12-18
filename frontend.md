@@ -7,7 +7,7 @@ Framework (VueJS)
 Nous avons choisi d'utiliser le framework VueJS.
 L'utilisation d'un framework est tout d'abord un choix, son utilisation amène une plus grande facilité et rapidité au développement
 d'une part tout en ayant un coût au niveau des performances d'autre part.
-De plus VueJS de part son approche qui sera détaillée par après permet une meilleur maintenabilité du code que du code vanilla 
+De plus, VueJS de part son approche qui sera détaillée par après permet une meilleur maintenabilité du code qu'en vanilla 
 (en pur javascript, sans l'utilisation d'un framework)
 
 Par ailleurs VueJS est plus facile à apprendre et à utiliser que ses concurrents (React, Angular ou autres) 
@@ -19,18 +19,54 @@ Bundling
 Lorsque l'on utilise un framework de nos jours, on ne va pas simplement créer un fichier javascript et un fichier css que l'on va importer
 dans notre page html (ex: index.html). 
 
-On va plutôt créer différents fichiers où l'on va importer plusieurs librairies javascript, des images voir même des fichiers de styles, 
-on va souvent utiliser un préprocesseur pour notre css (dans notre cas scss) afin de faciliter l'écriture de celui-ci,...
+> Technique traditionelle
+```html
+...
+<head>
+  <link rel=stylesheet href="style.css">
+  <script src=script.js></script>
+</head>
+...
+```
 
-Au final ce que nous voulons c'est avoir ces fameux fichiers javascript et css que nous allons intégrer dans notre page html 
+On va plutôt créer différents fichiers (appelés communément des modules) où l'on va importer plusieurs librairies javascript, des images voir même des fichiers de styles, 
+on va également souvent utiliser un préprocesseur pour notre css (dans notre cas scss) afin de faciliter l'écriture de celui-ci,...
+
+```js
+// moduleA.js
+import maSuperLibrairie from 'masuperlibrairie';
+const variable = "superstring";
+
+// code...
+
+export default variable;
+```
+
+```js
+// moduleB.js
+import moduleA from 'moduleA';
+
+// code...
+```
+
+Au final ce que nous voulons, c'est avoir ces fameux fichiers javascript et css que nous allons intégrer dans notre page html 
 au moyen de balises `<script>` et `<link>`.
 
-Pour cela, nous devons utiliser un outils de bundling, le plus populaire étant Webpack.    
+Pour cela, nous devons utiliser un outils de bundling, le plus populaire étant Webpack.       
 Malheureusement, celui-ci a besoin d'un fichier de configuration assez complexe au premier abord du moins. Il existe toutefois 
 pour chaque framework une `cli (command line interface)` qui génère automatiquement le fichier de config nécessaire au bon fonctionnement de Webpack.    
-Cependant, un membre de notre groupe disposait d'un fichier de config perso, l'avantage de créer sa propre configuration de Webpack 
-est qu'elle correspond parfaitement à ses besoins d'une part et d'autre part, si l'on a besoin de la moifier pour telle ou telle raison, 
-il est bien plus facile de le faire que de devoir rentrer dans une config qui n'est pas la notre.
+Cependant, un membre de notre groupe disposait d'un fichier de config personnalisé.     
+L'avantage de créer sa propre configuration de Webpack est qu'elle correspond parfaitement à ses besoins d'une part et d'autre part, si l'on a besoin de la modifier pour telle ou telle raison, il est bien plus facile de le faire que de devoir rentrer dans une config qui n'est pas la notre.
+
+> résultat après le bundling
+```html
+...
+<head>
+  <link rel=stylesheet href="bundle.0104254201.css">
+  <script src=bundle.01012014021.js></script>
+</head>
+...
+```
 
 > Webpack
 ![Webpack](https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2017/01/1484692838webpack-dependency-tree.png)
@@ -38,13 +74,13 @@ il est bien plus facile de le faire que de devoir rentrer dans une config qui n'
 Performance
 -----------
 
-Lorsque l'on veut faire un site ou une application web utilisable autant sur pc que sur mobile, il est important de prendre du temps pour optimiser ses performances. Un mobile lorsqu'il est connecté au réseau n'a pas toujours la vitesse de connexion d'un pc connecté au wifi ou au cable ni les performances d'un pc.  
-Dans une enquête menée par Google _(https://www.marketingdive.com/news/google-53-of-mobile-users-abandon-sites-that-take-over-3-seconds-to-load/426070/)_, il en est ressortit que **53%** des utilisateurs quitte un site s'il met plus de **3 secondes** à charger.
-Ne pas se concentrer sur les performances de son site signifie une perte importante d'utilisateurs et donc une perte d'argent.
+Lorsque l'on veut faire un site ou une application web utilisable autant sur pc que sur mobile, il est important de prendre du temps pour optimiser ses performances. Un mobile lorsqu'il est connecté au réseau n'a pas toujours la vitesse de connexion d'un pc connecté au wifi ou au cable ni les performances de cette machine.  
+Dans une enquête menée par Google _(https://www.marketingdive.com/news/google-53-of-mobile-users-abandon-sites-that-take-over-3-seconds-to-load/426070/)_, il en est ressortit que **53%** des utilisateurs quittent un site s'il met plus de **3 secondes** à charger.
+Ne pas se concentrer sur les performances de son site signifie une perte importante d'utilisateurs et donc par conséquent une perte d'argent.
 
 On peut remarquer que notre site se charge rapidement et ce même en 3G. Ceci est encore plus vrai après une première visite où le temps de chargement devient alors quasi instantané.    
-Lors de récent tests avec [webpagetest](https://www.webpagetest.org) avec un téléphone moyen et une connectivité 3G, nous avons un temps de chargement de ~4.2s lors de la première visite et de ~1-2s lors de visites répétées.    
-Nous voyons que bien que ces résultats sont correct, des améliorations reste toujours possibles. _(https://www.webpagetest.org/result/171217_W3_c4d3f643bf030d233ed13638ce7c0a63/)_
+Lors de récent tests avec [webpagetest](https://www.webpagetest.org) avec un téléphone moyen (Moto4G) et une connectivité 3G, nous avons un temps de chargement de ~4.2s lors de la première visite et de ~1-2s lors de visites répétées.    
+Nous voyons que bien que ces résultats sont corrects, des améliorations restent toujours possibles. _(https://www.webpagetest.org/result/171217_W3_c4d3f643bf030d233ed13638ce7c0a63/)_
 
 Autrement, nous avons un score de 100/100 sur [pagespeed insight](https://developers.google.com/speed/pagespeed/insights/?hl=fr&url=air.ephec-ti.org), un outil de google permettant de mesurer la performance d'un site web sur desktop et mobile.   
 
@@ -71,7 +107,7 @@ Service Worker
 ![Service Worker](https://blog.keycdn.com/blog/wp-content/uploads/2017/05/service-worker-diagram.png)
 
 Un service worker est un proxy se plaçant entre le site web et le réseau. Pour expliquer de manière très simple, il intercepte toute les requètes faites au réseau et peut choisir de soit passer la requête au réseau, soit récupérer une copie depuis le cache.    
-Il faut noter que des stratégies bien plus complexe peuvent être implémentées (https://jakearchibald.com/2014/offline-cookbook/).
+Il faut noter que des stratégies bien plus complexe peuvent être implémentées (téléchargement en arrière plan, synchronisation avec un serveur de notifications push,... -  https://jakearchibald.com/2014/offline-cookbook/).
 
 Celui-ci nous permet de mettre en cache l'intégralité de notre site web (excepté les données de consommations bien que cela soit possible mais nous avons manqué de temps pour le faire).   
 Il en résulte un temps de chargement quasi instantané.
@@ -95,19 +131,19 @@ Nous faisons du code-splitting pour découper notre bundle javascript en plusieu
 
 ![code splitting](https://raw.githubusercontent.com/Ephec-AIR/notes/master/screenshots/code-splitting.png)
 
-Enfin, le code des différentes route est précharger via la balise `<link rel=prefetch>`.    
-Ce préchargement est réalisé durant les "temps libres" du navigateur sans toutefois bloquer le chargement de la page comme un chargement normale d'une ressource.
+Enfin, le code des différentes route est préchargé via la balise `<link rel=prefetch>`.    
+Ce préchargement est réalisé durant les "temps libres" du navigateur sans toutefois bloquer le chargement de la page comme le chargement normale d'une ressource.
 
 ![link rel prefetch](https://raw.githubusercontent.com/Ephec-AIR/notes/master/screenshots/link-rel-prefetch.png)
 
 ![prefetch timeline](https://raw.githubusercontent.com/Ephec-AIR/notes/master/screenshots/prefetch-timeline.png)
 
-> Note: au dela d'être plus lent à télécharger, un plus gros bundle retarde le moment où la page est utilisable par l'utilisateur. En effet, après être chargé, le javascript doit être parsé et le temps de parsage est plus lent plus le bundle est volumineux et c'est d'autant plus vrai sur mobile où ce temps peut être multiplié par 10.
+> Note: au dela d'être plus lent à télécharger, un plus gros bundle retarde le moment où la page est utilisable par l'utilisateur. En effet, après être chargé, le javascript doit être parsé et le temps de parsage est plus lent plus le bundle est volumineux. Cette dernière affirmation est d'autant plus vrai sur mobile où ce temps peut être multiplié par 10.
 
 Images
 ------
 
-Une autre manière d'obtenir de meilleur performances fût de ne pas charger des images ayant des tailles trop grandes et inadaptées et d'utiliser le format **svg** (plus léger) dès que possible.
+Une autre manière d'obtenir de meilleur performances fût de ne pas charger des images ayant des tailles trop grandes et inadaptées et d'utiliser les formats **svg** ou **webp** (plus légers) dès que possible.
 
 Explications
 ============
@@ -121,7 +157,7 @@ Chaque composant contient à la fois sa structure html, sa logique (javascript) 
 Ceci permet une meilleur maintenabilité du code.
 
 Cette architecture est également adoptée par des concurrents de Vue tels que React et Angular.
-Elle a d'ailleur été standardisée par le **W3C** sous le nom de _Web Component_.
+Elle a d'ailleurs été standardisée par le **W3C** sous le nom de _Web Component_.
 
 Exemple d'un fichier Vue
 ------------------------
@@ -201,6 +237,7 @@ A chaque route (ex: /home), on associe une vue qui est elle-même un composant (
 
 Enfin, chaque composant contient ses propres données, elles peuvent propagées de parent à enfant via ce qu'on appelle des _props_ (semblable à des attributs html)
 
+> On propage les données contenue dans la variable data via la props "data"
 ```
 <composant-parent>
   <composant-enfant :data="data"></composant-enfant>
@@ -218,7 +255,7 @@ Le problème vient lorsqu'on veut propager ces données d'enfant à parent ou bi
 
 Pour régler, ce problème, nous avons utilisé **Vuex**.    
 Vuex permet de créer un store global qui contiendra l'entiereté des données de notre application.   
-Celle-ci pouvant désormais être injectées dans n'importe quel composant et partagées entre eux.
+Celles-ci pouvant désormais être injectées dans n'importe quel composant et partagées entre eux.
 
 Librairie pour les graphiques (Chartist)
 ----------------------------------------
@@ -226,12 +263,13 @@ Librairie pour les graphiques (Chartist)
 Lorsque nous avons commencé à intégrer les graphiques dans notre site web, nous avions d'abord pensé utiliser **anychart**.    
 Cette librairie posait 2 problèmes:    
 Le premier était qu'elle était payante et que la version gratuite au dela d'être limitée, plaçait un petit filigrane _"trial version"_ en dessous du graphique.    
-Le second était que cette librairie est bien trop lourde et ralentissait considérablement notre site web.
+Le second était que cette librairie est bien trop volumineuse et ralentissait considérablement notre site web.
 
-Nous nous sommes finalement rabattu sur **chartist**.   
+Nous nous sommes finalement rabattus sur **chartist**.   
 Chartist est une librairie permettant de facilement créer des graphiques simples, elle est très légère _(10kb gzip)_, responsive et fait le rendu des graphiques en svg.
 
-Son utilisation est assez simple, il suffit de remplir un array contenant les différents labels de l'axe des abscisses et un autre array contenant un ou plusieurs array chaque array représentant un type de donnée (ex: ) 
+Son utilisation est assez simple, il suffit de remplir un array contenant les différents labels de l'axe des abscisses et un autre array contenant un ou plusieurs array.
+Chaque array représentant un type de donnée (ex: ma consommation, la consommation moyenne des utilisateurs,...).
 
 ```js
 labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
@@ -252,7 +290,8 @@ Service Workers: an Introduction, En ligne
 * Addy OSMANI, Preload, Prefetch And Priorities in Chrome, En ligne    
 <https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf> consulté le 17/12/17
 
-* Addy OSMANI, The cost of javascript, En ligne     <https://medium.com/dev-channel/the-cost-of-javascript-84009f51e99e> consulté le 17/12/17
+* Addy OSMANI, The cost of javascript, En ligne    
+<https://medium.com/dev-channel/the-cost-of-javascript-84009f51e99e> consulté le 17/12/17
 
 * Addy OSMANI, The PRPL Pattern, En ligne    
 <https://developers.google.com/web/fundamentals/performance/prpl-pattern/> consulté le 17/12/17
