@@ -1,6 +1,8 @@
-### Technologies
+Technologies
+============
 
-#### Framework (VueJS)
+Framework (VueJS)
+-----------------
 
 Nous avons choisi d'utiliser le framework VueJS.
 L'utilisation d'un framework est tout d'abord un choix, son utilisation amène une plus grande facilité et rapidité au développement
@@ -11,7 +13,8 @@ De plus VueJS de part son approche qui sera détaillée par après permet une me
 Par ailleurs VueJS est plus facile à apprendre et à utiliser que ses concurrents (React, Angular ou autres) 
 et son écosystème (vue-router, vuex) est bien intégré au framework et cohérent avec celui-ci.
 
-#### Bundling
+Bundling
+--------
 
 Lorsque l'on utilise un framework de nos jours, on ne va pas simplement créer un fichier javascript et un fichier css que l'on va importer
 dans notre page html (ex: index.html). 
@@ -32,7 +35,8 @@ il est bien plus facile de le faire que de devoir rentrer dans une config qui n'
 > Webpack
 ![Webpack](https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2017/01/1484692838webpack-dependency-tree.png)
 
-#### Performance
+Performance
+-----------
 
 Lorsque l'on veut faire un site ou une application web utilisable autant sur pc que sur mobile, il est important de prendre du temps pour optimiser ses performances. Un mobile lorsqu'il est connecté au réseau n'a pas toujours la vitesse de connexion d'un pc connecté au wifi ou au cable ni les performances d'un pc.  
 Dans une enquête menée par Google _(https://www.marketingdive.com/news/google-53-of-mobile-users-abandon-sites-that-take-over-3-seconds-to-load/426070/)_, il en est ressortit que **53%** des utilisateurs quitte un site s'il met plus de **3 secondes** à charger.
@@ -46,7 +50,9 @@ Autrement, nous avons un score de 100/100 sur [pagespeed insight](https://develo
 
 Nous avons mis en place différentes choses pour arriver à un tel résultat.
 
-##### Gzip et cache nginx
+Gzip et cache nginx
+-------------------
+
 Du côté du serveur web (nginx), nous avons compressé tout nos assets (css, js, html) au format gzip.    
 Ceci permet de réduire la taille de ces fichiers et donc de réduire le besoin en bande passante.    
 Par exemple, ceci nous permet de réduire d'un facteur de 3 la taille de nos fichiers javascript.     
@@ -59,7 +65,8 @@ Il supprime l'ancien fichier du cache et place le nouveau dans celui-ci.
 > Gzip et mise en cache
 ![Gzip et Cache](https://raw.githubusercontent.com/Ephec-AIR/notes/master/screenshots/cache-nginx.png)
 
-##### Service Worker
+Service Worker
+--------------
 
 ![Service Worker](https://blog.keycdn.com/blog/wp-content/uploads/2017/05/service-worker-diagram.png)
 
@@ -73,7 +80,8 @@ Il en résulte un temps de chargement quasi instantané.
 
 ![SW route](https://raw.githubusercontent.com/Ephec-AIR/notes/master/screenshots/sw-route-cache.png)
 
-##### PRPL pattern et code-splitting 
+PRPL pattern et code-splitting 
+------------------------------
 
 ![Code splitting](https://cdn-images-1.medium.com/max/1000/1*VgdNbnl08gcetpqE1t9P9w.png)
 
@@ -96,13 +104,17 @@ Ce préchargement est réalisé durant les "temps libres" du navigateur sans tou
 
 > Note: au dela d'être plus lent à télécharger, un plus gros bundle retarde le moment où la page est utilisable par l'utilisateur. En effet, après être chargé, le javascript doit être parsé et le temps de parsage est plus lent plus le bundle est volumineux et c'est d'autant plus vrai sur mobile où ce temps peut être multiplié par 10.
 
-#### Images
+Images
+------
 
 Une autre manière d'obtenir de meilleur performances fût de ne pas charger des images ayant des tailles trop grandes et inadaptées et d'utiliser le format **svg** (plus léger) dès que possible.
 
-### Explication
+Explications
+============
 
-#### Architecture de l'application
+Architecture de l'application
+-----------------------------
+
 VueJS organise l'application en composant, ceux-ci sont placés dans des fichiers `.vue`.    
 Un composant peut être n'importe quel élément de l'interface (formulaire d'inscription, graph, barre de navigation,...).
 Chaque composant contient à la fois sa structure html, sa logique (javascript) et son style.     
@@ -111,7 +123,8 @@ Ceci permet une meilleur maintenabilité du code.
 Cette architecture est également adoptée par des concurrents de Vue tels que React et Angular.
 Elle a d'ailleur été standardisée par le **W3C** sous le nom de _Web Component_.
 
-##### Exemple d'un fichier Vue
+Exemple d'un fichier Vue
+------------------------
 
 ```vue
 <template>
@@ -207,7 +220,9 @@ Pour régler, ce problème, nous avons utilisé **Vuex**.
 Vuex permet de créer un store global qui contiendra l'entiereté des données de notre application.   
 Celle-ci pouvant désormais être injectées dans n'importe quel composant et partagées entre eux.
 
-#### Librairie pour les graphiques (Chartist)
+Librairie pour les graphiques (Chartist)
+----------------------------------------
+
 Lorsque nous avons commencé à intégrer les graphiques dans notre site web, nous avions d'abord pensé utiliser **anychart**.    
 Cette librairie posait 2 problèmes:    
 Le premier était qu'elle était payante et que la version gratuite au dela d'être limitée, plaçait un petit filigrane _"trial version"_ en dessous du graphique.    
