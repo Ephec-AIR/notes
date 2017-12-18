@@ -81,7 +81,7 @@ Les mises à jour sont effectuées automatiquement (voir [`Intégration continue
 
 Du fait que nous utilisons *git* (qui se base sur les protocoles sécurisés HTTPS ou SSH), chaque transaction est certaine de provenir ou de parvenir à la destination voulue (dans notre cas github).
 
-Seuls les membres de l'organisation [Ephec-AIR](https://github.com/Ephec-AIR) sont autoriser à faire des modifications, c'est à dire les six membres de notre groupe d'intégration. Une exception notable a été celle de Christophe Van Waesberghe qui a eu accès en écriture au dépôt [Ephec-AIR/ocr](https://github.com/Ephec-AIR/ocr) le temps de réaliser le projet du cours de Traitement du Signal.
+Seuls les membres de l'organisation [Ephec-AIR](https://github.com/Ephec-AIR) sont autoriser à faire des modifications, c'est-à-dire les six membres de notre groupe d'intégration. Une exception notable a été celle de Christophe Van Waesberghe qui a eu accès en écriture au dépôt [Ephec-AIR/ocr](https://github.com/Ephec-AIR/ocr) le temps de réaliser le projet du cours de Traitement du Signal.
 
 Ces septs personnes sont toutes soumises au [rêglement des études de l'EPHEC](http://www.ephec.be/uploads/PLEIN%20EXERCICE/G%C3%A9n%C3%A9ral%202017-2018/Reglement_general_etudes_examens_2017-18.pdf).
 
