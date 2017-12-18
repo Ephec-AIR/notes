@@ -6,7 +6,7 @@ Les sécurités suivantes ont été mises en place pour assurer l'accès au VPS 
 Sécurité passive : iptables
 ---------------------------
 
-`iptables` est le par-feu fourni par défaut sur linux, il permet de spécifier les règles pour le sous-système `netfilter` qui est inclus au kernel Linux. Nous l'avons configuré avec la philosophie suivante:
+`iptables` est le pare-feu fourni par défaut sur linux, il permet de spécifier les règles pour le sous-système `netfilter` qui est inclus au kernel Linux. Nous l'avons configuré avec la philosophie suivante:
 
 1) Interdire tout ce qui n'est pas autorisé
 2) N'autoriser que le strict nécessaire
