@@ -16,7 +16,7 @@ Sécurité passive : iptables
 Sécurité active : fail2ban
 --------------------------
 
-`fail2ban` est un utilitaire qui détecte des comportements étranges en lisant à la volée les fichiers logs de différents services. Nous avons activé les détections pour les services `ssh` (brute force, dos) et `nginx` (brute force, dos, bot search). Comme nginx est en amont de notre application, chaque erreur http renvoyée par notre application se retrouve dans les logs de nginx et donc est filtrée par fail2abn. Notre application web est ainsi protégée de la même manière que nginx.
+`fail2ban` est un utilitaire qui détecte des comportements étranges en lisant à la volée les fichiers logs de différents services. Nous avons activé les détections pour les services `ssh` (brute force, dos) et `nginx` (brute force, dos, bot search). Comme nginx est en amont de notre application, chaque erreur http renvoyée par notre application se retrouve dans les logs de nginx et donc est filtrée par fail2ban. Notre application web est ainsi protégée de la même manière que nginx.
 
 Lorsqu'un comportement étrange est détecté, la politique est de bannir l'adresse ip du pirate pour 1 jour et d'envoyer une notification sur le téléphone d'un admin (Julien dans le cas présent).
 
