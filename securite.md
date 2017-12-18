@@ -83,9 +83,9 @@ Du fait que nous utilisons *git* (qui se base sur les protocoles sécurisés HTT
 
 Seuls les membres de l'organisation [Ephec-AIR](https://github.com/Ephec-AIR) sont autoriser à faire des modifications, c'est-à-dire les six membres de notre groupe d'intégration. Une exception notable a été celle de Christophe Van Waesberghe qui a eu accès en écriture au dépôt [Ephec-AIR/ocr](https://github.com/Ephec-AIR/ocr) le temps de réaliser le projet du cours de Traitement du Signal.
 
-Ces septs personnes sont toutes soumises au [rêglement des études de l'EPHEC](http://www.ephec.be/uploads/PLEIN%20EXERCICE/G%C3%A9n%C3%A9ral%202017-2018/Reglement_general_etudes_examens_2017-18.pdf).
+Ces septs personnes sont toutes soumises au [règlement des études de l'EPHEC](http://www.ephec.be/uploads/PLEIN%20EXERCICE/G%C3%A9n%C3%A9ral%202017-2018/Reglement_general_etudes_examens_2017-18.pdf).
 
-En conclusion, vu que chaque fichier ne peut être modifier que part une liste bien définie de personne soumises à un règlement commun et que l'origine des mises à jour ne peut pas être détourner: les mises à jours sont sécurisées et fiable.
+En conclusion, vu que chaque fichier ne peut être modifier que par une liste bien définie de personne soumises à un règlement commun et que l'origine des mises à jour ne peut pas être détourner: les mises à jours sont sécurisées et fiables.
 
 Bibliographie
 -------------
