@@ -6,7 +6,7 @@ Les sécurités suivantes ont été mises en place pour assurer l'accès au VPS 
 Sécurité passive : iptables
 ---------------------------
 
-`iptables` est le par-feu fourni par défaut sur linux, il permet de spécifier les règles pour le sous-système `netfilter` qui est inclus au kernel Linux. Nous l'avons configuré avec la philosophie suivante:
+`iptables` est le pare-feu fourni par défaut sur linux, il permet de spécifier les règles pour le sous-système `netfilter` qui est inclus au kernel Linux. Nous l'avons configuré avec la philosophie suivante:
 
 1) Interdire tout ce qui n'est pas autorisé
 2) N'autoriser que le strict nécessaire
@@ -16,7 +16,7 @@ Sécurité passive : iptables
 Sécurité active : fail2ban
 --------------------------
 
-`fail2ban` est un utilitaire qui détecte des comportements étranges en lisant à la volée les fichiers logs de différents services. Nous avons activé les détections pour les services `ssh` (brute force, dos) et `nginx` (brute force, dos, bot search). Comme nginx est en amont de notre application, chaque erreur http renvoyée par notre application se retrouve dans les logs de nginx et donc est filtrée par fail2ban. Notre application web est ainsi protégée de la même manière que nginx.
+`fail2ban` est un utilitaire qui détecte les comportements étranges en lisant à la volée les fichiers logs de différents services. Nous avons activé les détections pour les services `ssh` (brute force, dos) et `nginx` (brute force, dos, bot search). Comme nginx est en amont de notre application, chaque erreur http renvoyée par notre application se retrouve dans les logs de nginx et donc est filtrée par fail2ban. Notre application web est ainsi protégée de la même manière que nginx.
 
 Lorsqu'un comportement étrange est détecté, la politique est de bannir l'adresse ip du pirate pour 1 jour et d'envoyer une notification sur le téléphone d'un admin (Julien dans le cas présent).
 
@@ -65,11 +65,11 @@ Les failles XSS (cross-site scripting) permettent à un utilisateur d'injecter d
 
 VueJS (le framework frontend utilisé dans le projet) par défaut protège contre ces failles.   
 Il n'interprête pas le code html injecté sauf si on le demande explicitement via l'attribut `v-html`.    
-Nous n'avons pas utilisé cette attribut dans notre code donc nous sommes protégé contre de telles attaques.
+Nous n'avons pas utilisé cet attribut dans notre code donc nous sommes protégé contre de telles attaques.
 
 Variables d'environnement
 -------------------------
-Les mots de passes de notre API (mots de passes de la base de donnée,...) sont stockés dans les variables d'environnements afin de ne pas les affichés dans le code de notre application.  
+Les mots de passes de notre API (mots de passes de la base de donnée,...) sont stockés dans les variables d'environnement afin de ne pas les affichés dans le code de notre application.  
 
 Toutefois, en développement nous utilisons un fichier `.env` où sont placés les variables d'environnement. 
 Celui-ci n'est évidemment pas commité sur github.
@@ -79,13 +79,13 @@ Mises à jour sécurisées
 
 Les mises à jour sont effectuées automatiquement (voir [`Intégration continue##Le Process de Mise en Production`](integration_continue.md)). C'est souvent une faille logiciel importante qui permet à un attaquant de détourner le système de mise à jour pour forcer l'installation de binaires pirates. Dans un système sécurisé, il faut signer chaque binaire avec le certificat de l'entreprise avant de rendre ce binaire téléchargeable via le processus de mise à jour, processus qui doit vérifier l'authenticité de chaque binaire téléchargé avant de l'installer.
 
-Du fait que nous utilisons *git* (qui se base sur les protocoles sécurisés HTTPS ou SSH), chaque transaction est sur de provenir ou de parvenir à la destination voulue (dans notre cas github).
+Du fait que nous utilisons *git* (qui se base sur les protocoles sécurisés HTTPS ou SSH), chaque transaction est certaine de provenir ou de parvenir à la destination voulue (dans notre cas github).
 
-Seuls les membres de l'organisation [Ephec-AIR](https://github.com/Ephec-AIR) sont autoriser à faire des modifications, c'est à dire les six membres de notre groupe d'intégration. Une exception notable a été celle de Christophe Van Waesberghe qui a eu accès en écriture au dépôt [Ephec-AIR/ocr](https://github.com/Ephec-AIR/ocr) le temps de réaliser le projet du cours de Traitement du Signal.
+Seuls les membres de l'organisation [Ephec-AIR](https://github.com/Ephec-AIR) sont autoriser à faire des modifications, c'est-à-dire les six membres de notre groupe d'intégration. Une exception notable a été celle de Christophe Van Waesberghe qui a eu accès en écriture au dépôt [Ephec-AIR/ocr](https://github.com/Ephec-AIR/ocr) le temps de réaliser le projet du cours de Traitement du Signal.
 
-Ces septs personnes sont toutes soumises au [rêglement des études de l'EPHEC](http://www.ephec.be/uploads/PLEIN%20EXERCICE/G%C3%A9n%C3%A9ral%202017-2018/Reglement_general_etudes_examens_2017-18.pdf).
+Ces septs personnes sont toutes soumises au [règlement des études de l'EPHEC](http://www.ephec.be/uploads/PLEIN%20EXERCICE/G%C3%A9n%C3%A9ral%202017-2018/Reglement_general_etudes_examens_2017-18.pdf).
 
-En conclusion, vu que chaque fichier ne peut être modifier que part une liste bien définie de personne soumises à un règlement commun et que l'origine des mises à jour ne peut pas être détourner: les mises à jours sont sécurisées et fiable.
+En conclusion, vu que chaque fichier ne peut être modifier que par une liste bien définie de personne soumises à un règlement commun et que l'origine des mises à jour ne peut pas être détourner: les mises à jours sont sécurisées et fiables.
 
 Bibliographie
 -------------

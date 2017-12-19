@@ -1,16 +1,21 @@
+Web API
+=======
+
 NodeJS
 ------
-NodeJS permet de réaliser d'écrire du javascript côté serveur. 
+
+NodeJS permet d'écrire du javascript côté serveur. 
 Nous l'avons utilisé pour réaliser le backend et plus précisément l'API de notre application.
-Un des avantages de celui-ci est qu'il le même langage que le client ce qui nous permet par exemple d'utilisé des librairies identiques autant côté serveur que client.
+Un des avantages de celui-ci est qu'il a le même langage que le client ce qui nous permet par exemple d'utiliser des librairies identiques autant côté serveur que client (ce fût le cas pour une librairie de gestion de dates).
 
 Base de donnée
 --------------
+
 MongoDB est un système de gestion de base de donnée orienté documents.
 Chaque nouvelle donnée que l'on rentre dans un modèle (équivalent à une table en SQL) n'est pas une nouvelle ligne 
 comme en SQL mais un nouveau document. 
 On peut comparer ce document à un objet javascript.
-Il fait partie de la famille des bases de données NoSQL (Redis,...)
+Ce système fait partie de la famille des bases de données NoSQL (Redis,...)
 L'avantage de MongoDB est qu'il est parfaitement intégré à NodeJS via la librairie `mongoose` contrairement
 à la plupart des bases de données SQL.
 
@@ -20,17 +25,26 @@ Voici le schéma de notre base de donnée:
 
 Json Web Token
 --------------
-Un json web token (JWT) est une longue chaîne de caractère permettant l'authentification, il est signé sur le serveur grâce à un mot de passe lorsqu'il est créé et est décrypté avec ce même mot de passe.
 
-Lorsque l'utilisateur s'authentifie sur notre site, il reçoit en retour de l'api un json web token. Celui-ci est stocké dans le navigateur et est utilisé pour s'authentifier à l'API.    
-De cette manière, l'API s'assure que seul un utilisateur connecté à accès aux routes protégées.
+Historiquement, lorsqu'un utilisateur se connecte sur un site, ses informations sont enregistrées dans une session et il y accède au moyen d'un cookie. Cette approche a des lacunes qui rend difficile son utilisation au sain d'une application web.
+
+Les Json Web Tokens permettent de pallier aux lacunes du système de session traditionnel en stokant les informations utilisateur de manière sécurisée chez le client. Après une authentification réussie, le serveur va envoyer un JWT pour le client dans sa réponse HTTP, le client est alors responsable de fournir ce jeton d'accès à chaque nouvelle requête HTTP (dans la variable `Authentication` des entêtes HTTP).
+
+Un JWT est en fait une chaine de caractère séparée en trois par un point:
+
+1) Une entête qui fourni les informations sur la nature du JWT.
+2) La charge utile qui contient les infos de l'utilisateur.
+3) La signature de la charge (avec une clée privée au serveur) pour s'assurer de l'authenticité du JWT.
+
+Chaque partie étant encodée en base64
 
 Middlewares
 -----------
+
 NodeJS utilise un système de middlewares qui permettent à la requête de passer par différentes fonctions qui nous permettent de valider cette dite requête.    
 Pour appeler la fonction de middleware suivante, on utilise la fonction `next()`.    
-Ceci nous permet de par exemple valider un champs de formulaire, autoriser un utilisateur,... et de stopper la requête à l'api si une des condition n'est pas vérifiée.    
-Ceci permet notamment d'éviter de dupliquer du code de vérification, autorisation à travers le code et de plus facilement s'y retrouver dans nos différents patterns d'autorisation.
+Ceci nous permet par exemple de valider un champs de formulaire, autoriser un utilisateur,... et de stopper la requête à l'api si une des condition n'est pas vérifiée.    
+Ceci permet notamment d'éviter de dupliquer du code de vérification, autorisation à travers le code et de plus facilement s'y retrouver dans nos différents patternes d'autorisation.
 
 exemple : 
 ```js
@@ -139,4 +153,9 @@ const onlyUpdatedUser = (req, res, next) => {
 
 CORS (Cross Origin Resource Sharing)
 ------------------------------------
-Notre API tournant sur un port différent de celui du site, nous avons du activé CORS sur notre serveur afin d'autoriser tout autre origine tournant sur la même machine que l'api à pouvoir faire des requètes vers celle-ci.
+Notre API tournant sur un port différent de celui du site, nous avons du activer CORS sur notre serveur afin d'autoriser tout autre origine tournant sur la même machine que l'api à pouvoir faire des requêtes vers celle-ci.
+
+Bibliographie
+-------------
+
+JWT, *JSON Web Token Introduction*, en ligne <https://jwt.io/introduction/> consulté de septembre 2017 à octobre 2017.
